@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pokémon Guessing Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Guess That Pokémon!</h1>
+    
+    <div id="game">
+      <img id="pokemon-image" src="sprites/001.png" alt="Pokémon" />
+      <input type="text" id="guess-input" placeholder="Enter Pokémon name..." autofocus />
+      <button id="submit-guess">Submit</button>
+    </div>
+
+    <div id="stats">
+      <p>Score: <span id="score">0</span></p>
+      <p>Time: <span id="timer">0</span>s</p>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
