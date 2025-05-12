@@ -173,19 +173,35 @@ setInterval(updateTimer, 1000);
 
 submitBtn.addEventListener("click", () => {
   const userGuess = input.value.trim().toLowerCase();
-  const correctName = pokemonList[currentIndex].name;
+  const correctName = pokemonList[currentIndex].name.toLowerCase();
 
   if (userGuess.includes(correctName)) {
     score++;
-    statusDisplay.textContent = "Correct!";
+    statusDisplay.textContent = "✅ Correct!";
+    scoreDisplay.textContent = score;
   } else {
-    score--;
-    statusDisplay.textContent = `Wrong! It was ${correctName}.`;
+    statusDisplay.textContent = `❌ Wrong! That was ${correctName}.`;
+    // No score penalty
   }
 
-  scoreDisplay.textContent = score;
-  input.value = "";
-  input.focus();
+  currentIndex++;
 
-  // Restart with same image for now — will add next logic later
+  if (currentIndex < pokemonList.length) {
+    // Load next Pokémon
+    imageElement.src = pokemonList[currentIndex].image;
+    input.value = "";
+    input.focus();
+  } else {
+    // Game finished
+    statusDisplay.textContent = `🎉 All done! Final Score: ${score}/151`;
+    input.disabled = true;
+    submitBtn.disabled = true;
+  }
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      submitBtn.click();
+    }
+  });
 });
+
+// Restart with same image for now — will add next logic later
