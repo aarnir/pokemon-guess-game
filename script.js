@@ -204,12 +204,33 @@ window.onload = function () {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
     timerDisplay.textContent = elapsed;
   }
+  const restartBtn = document.getElementById("restart-btn");
+
+restartBtn.addEventListener("click", () => {
+  startGame();
+});
+
   function showNextPokemon() {
     currentIndex++;
     if (currentIndex < pokemonList.length) {
-      imageElement.src = pokemonList[currentIndex].image;
-      input.value = "";
-      input.focus();
+      imageElement.classList.add("fly-out");
+
+      setTimeout(() => {
+        // Switch image after fly-out
+        imageElement.src = pokemonList[currentIndex].image;
+        imageElement.classList.remove("fly-out");
+        imageElement.classList.add("fly-in");
+      
+        // Reset input
+        input.value = "";
+        input.focus();
+      
+        // Remove fly-in after it's done
+        setTimeout(() => {
+          imageElement.classList.remove("fly-in");
+        }, 300);
+      }, 300);
+      
     } else {
       statusDisplay.textContent = `🎉 All done! Final Score: ${score}/151`;
       input.disabled = true;
