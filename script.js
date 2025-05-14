@@ -186,6 +186,9 @@ window.onload = function () {
     statusDisplay.textContent = "";
     guessedList.innerHTML = "";
     missedList.innerHTML = "";
+    input.disabled = false;
+submitBtn.disabled = false;
+skipBtn.disabled = false;
   }
 
   function addToGuessed(name) {
@@ -209,7 +212,16 @@ window.onload = function () {
 restartBtn.addEventListener("click", () => {
   startGame();
 });
+const splashMessage = document.getElementById("splash-message");
 
+function showSplash(text, isCorrect) {
+  splashMessage.textContent = text;
+  splashMessage.className = "splash-visible " + (isCorrect ? "splash-correct" : "splash-wrong");
+
+  setTimeout(() => {
+    splashMessage.classList.remove("splash-visible");
+  }, 1000); // splash lasts 1 second
+}
   function showNextPokemon() {
     currentIndex++;
     if (currentIndex < pokemonList.length) {
@@ -248,17 +260,16 @@ restartBtn.addEventListener("click", () => {
     }
   });
   submitBtn.addEventListener("click", () => {
-    console.log("✅ Submit button clicked");
     const userGuess = input.value.trim().toLowerCase();
     const correctName = pokemonList[currentIndex].name.toLowerCase();
 
     if (userGuess.includes(correctName)) {
       score++;
-      statusDisplay.textContent = "✅ Correct!";
+      showSplash("Correct!", true);
       scoreDisplay.textContent = score;
       addToGuessed(correctName);
     } else {
-      statusDisplay.textContent = `❌ Wrong! That was ${correctName}.`;
+      showSplash("Wrong!", false);
       addToMissed(correctName);
     }
 
