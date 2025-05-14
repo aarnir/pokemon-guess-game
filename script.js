@@ -166,7 +166,6 @@ window.onload = function () {
   let startTime = Date.now();
 
   const imageElement = document.getElementById("pokemon-image");
-  imageElement.src = pokemonList[currentIndex].image;
   const input = document.getElementById("guess-input");
   const submitBtn = document.getElementById("submit-guess");
   const skipBtn = document.getElementById("skip-btn");
@@ -175,6 +174,19 @@ window.onload = function () {
   const statusDisplay = document.getElementById("status");
   const guessedList = document.getElementById("guessed-list");
   const missedList = document.getElementById("missed-list");
+
+  function startGame() {
+    shuffleArray(pokemonList);
+    currentIndex = 0;
+    score = 0;
+    imageElement.src = pokemonList[currentIndex].image;
+    input.value = "";
+    input.focus();
+    scoreDisplay.textContent = "0";
+    statusDisplay.textContent = "";
+    guessedList.innerHTML = "";
+    missedList.innerHTML = "";
+  }
 
   function addToGuessed(name) {
     const li = document.createElement("li");
@@ -231,4 +243,5 @@ window.onload = function () {
 
     showNextPokemon();
   });
+  startGame();
 };
