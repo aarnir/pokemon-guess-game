@@ -187,8 +187,8 @@ window.onload = function () {
     guessedList.innerHTML = "";
     missedList.innerHTML = "";
     input.disabled = false;
-submitBtn.disabled = false;
-skipBtn.disabled = false;
+    submitBtn.disabled = false;
+    skipBtn.disabled = false;
   }
 
   function addToGuessed(name) {
@@ -209,19 +209,20 @@ skipBtn.disabled = false;
   }
   const restartBtn = document.getElementById("restart-btn");
 
-restartBtn.addEventListener("click", () => {
-  startGame();
-});
-const splashMessage = document.getElementById("splash-message");
+  restartBtn.addEventListener("click", () => {
+    startGame();
+  });
+  const splashMessage = document.getElementById("splash-message");
 
-function showSplash(text, isCorrect) {
-  splashMessage.textContent = text;
-  splashMessage.className = "splash-visible " + (isCorrect ? "splash-correct" : "splash-wrong");
+  function showSplash(text, isCorrect) {
+    splashMessage.textContent = text;
+    splashMessage.className =
+      "splash-visible " + (isCorrect ? "splash-correct" : "splash-wrong");
 
-  setTimeout(() => {
-    splashMessage.classList.remove("splash-visible");
-  }, 1000); // splash lasts 1 second
-}
+    setTimeout(() => {
+      splashMessage.classList.remove("splash-visible");
+    }, 1000); // splash lasts 1 second
+  }
   function showNextPokemon() {
     currentIndex++;
     if (currentIndex < pokemonList.length) {
@@ -232,17 +233,16 @@ function showSplash(text, isCorrect) {
         imageElement.src = pokemonList[currentIndex].image;
         imageElement.classList.remove("fly-out");
         imageElement.classList.add("fly-in");
-      
+
         // Reset input
         input.value = "";
         input.focus();
-      
+
         // Remove fly-in after it's done
         setTimeout(() => {
           imageElement.classList.remove("fly-in");
         }, 300);
       }, 300);
-      
     } else {
       statusDisplay.textContent = `🎉 All done! Final Score: ${score}/151`;
       input.disabled = true;
@@ -273,6 +273,10 @@ function showSplash(text, isCorrect) {
       addToMissed(correctName);
     }
 
+    showNextPokemon();
+  });
+  skipBtn.addEventListener("click", () => {
+    addToMissed(pokemonList[currentIndex].name);
     showNextPokemon();
   });
   startGame();
