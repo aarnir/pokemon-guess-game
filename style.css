@@ -1,5 +1,5 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background: #f2f2f2;
   text-align: center;
   padding: 20px;
@@ -54,22 +54,8 @@ button {
 }
 
 #pokemon-image {
-  width: 180px; /* increased size (120px * 1.5) */
-  height: 180px;
-  object-fit: contain;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-bottom: 16px;
-}
-
-#pokemon-image:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-/* Card base */
-#pokemon-image {
+  position: relative;
+  z-index: 1;
   width: 180px;
   height: 180px;
   object-fit: contain;
@@ -78,6 +64,11 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 16px;
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#pokemon-image:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* Fly out to the left */
@@ -206,4 +197,8 @@ button {
   max-height: 200px;
   overflow-y: auto;
   font-size: 0.95rem;
+}
+#splash-message {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px dashed red;
 }

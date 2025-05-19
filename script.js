@@ -215,6 +215,7 @@ window.onload = function () {
   const splashMessage = document.getElementById("splash-message");
 
   function showSplash(text, isCorrect) {
+    console.log("💥 Showing splash:", text);
     splashMessage.textContent = text;
     splashMessage.className =
       "splash-visible " + (isCorrect ? "splash-correct" : "splash-wrong");
