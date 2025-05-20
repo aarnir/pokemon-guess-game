@@ -207,12 +207,19 @@ button {
   background-color: #fb8c00;
 }
 
-#results {
+/*#results {
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
   gap: 16px;
   flex-wrap: wrap;
+}*/
+.top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 .result-box {

@@ -164,6 +164,8 @@ window.onload = function () {
   let currentIndex = 0;
   let score = 0;
   let startTime = Date.now();
+  let timerInterval;
+  let isTransitioning = false;
 
   const imageElement = document.getElementById("pokemon-image");
   const input = document.getElementById("guess-input");
@@ -191,6 +193,12 @@ window.onload = function () {
     input.disabled = false;
     submitBtn.disabled = false;
     skipBtn.disabled = false;
+
+    // reset and start the timer
+    clearInterval(timerInterval);
+    startTime = Date.now();
+    updateTimer(); // reset to 0 immediately
+    timerInterval = setInterval(updateTimer, 1000);
   }
 
   function addToGuessed(name) {
@@ -261,9 +269,9 @@ window.onload = function () {
       input.disabled = true;
       submitBtn.disabled = true;
       skipBtn.disabled = true;
+      clearInterval(timerInterval); // <- stops the timer!
     }
   }
-  setInterval(updateTimer, 1000);
 
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {

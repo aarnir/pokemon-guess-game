@@ -9,39 +9,31 @@
     <div class="container">
       <h1>Guess That Pokémon!</h1>
       <div id="game">
-        <div class="image-wrapper">
-          <img id="pokemon-image" alt="Pokémon" />
-          <div id="answer-label"></div>
-        </div>
-        <input
-          type="text"
-          id="guess-input"
-          placeholder="Enter Pokémon name..."
-          autofocus
-        />
-        <button id="submit-guess" type="button">Submit</button>
-        <button id="skip-btn">Skip</button>
-        <button id="end-run-btn">End Run</button>
-      </div>
+        <div class="top-row">
+          <div class="result-box">
+            <h3>✅ Correct</h3>
+            <ul id="guessed-list"></ul>
+          </div>
 
-      <div id="stats">
-        <p>Score: <span id="score">0</span></p>
-        <p>Time: <span id="timer">0</span>s</p>
-      </div>
-      <div id="controls">
-        <button id="restart-btn">🔄 Restart</button>
-      </div>
-      <div id="results">
-        <div class="result-box">
-          <h3>✅ Correct</h3>
-          <ul id="guessed-list"></ul>
+          <div class="image-wrapper">
+            <img id="pokemon-image" alt="Pokémon" />
+            <div id="answer-label"></div>
+          </div>
+
+          <div class="result-box">
+            <h3>❌ Missed</h3>
+            <ul id="missed-list"></ul>
+          </div>
         </div>
-        <div class="result-box">
-          <h3>❌ Missed</h3>
-          <ul id="missed-list"></ul>
-        </div>
-      </div>
-      <div id="status"></div>
+        <!-- rest of the game UI -->
+        <input type="text" id="guess-input" placeholder="Enter Pokémon name..." autofocus />
+          <button id="submit-guess" type="button">Submit</button>
+          <button id="skip-btn" type="button">Skip</button>
+<div id="controls">
+  <button id="restart-btn">🔄 Restart</button>
+  <button id="end-run-btn">⏹️ End Run</button>
+</div>
+
     </div>
 
     <script src="script.js"></script>
