@@ -174,6 +174,7 @@ window.onload = function () {
   const statusDisplay = document.getElementById("status");
   const guessedList = document.getElementById("guessed-list");
   const missedList = document.getElementById("missed-list");
+  const label = document.getElementById("answer-label");
 
   function startGame() {
     shuffleArray(pokemonList);
@@ -209,21 +210,30 @@ window.onload = function () {
   }
   const restartBtn = document.getElementById("restart-btn");
 
+  function bounceAndShowNext() {
+    label.classList.add("bounce-out");
+
+    setTimeout(() => {
+      label.textContent = "";
+      label.classList.remove("bounce-out");
+      label.classList.remove("visible");
+      label.style.opacity = 0;
+
+      showNextPokemon();
+    }, 600); // total label visibility duration
+  }
+
   restartBtn.addEventListener("click", () => {
     startGame();
   });
   const splashMessage = document.getElementById("splash-message");
 
-  function showSplash(text, isCorrect) {
-    console.log("💥 Showing splash:", text);
-    splashMessage.textContent = text;
-    splashMessage.className =
-      "splash-visible " + (isCorrect ? "splash-correct" : "splash-wrong");
-
-    setTimeout(() => {
-      splashMessage.classList.remove("splash-visible");
-    }, 1000); // splash lasts 1 second
+  function showLabel(text, isCorrect) {
+    label.textContent = text;
+    label.className = isCorrect ? "visible correct" : "visible wrong";
+    label.style.opacity = 1;
   }
+
   function showNextPokemon() {
     currentIndex++;
     if (currentIndex < pokemonList.length) {
@@ -266,19 +276,20 @@ window.onload = function () {
 
     if (userGuess.includes(correctName)) {
       score++;
-      showSplash("Correct!", true);
+      showLabel("Correct!", true);
       scoreDisplay.textContent = score;
       addToGuessed(correctName);
     } else {
-      showSplash("Wrong!", false);
+      showLabel("Wrong!", false);
       addToMissed(correctName);
     }
 
-    showNextPokemon();
+    setTimeout(bounceAndShowNext, 1200);
   });
   skipBtn.addEventListener("click", () => {
     addToMissed(pokemonList[currentIndex].name);
-    showNextPokemon();
+    showLabel("Skipped!", false); // optional message
+    setTimeout(bounceAndShowNext, 1500);
   });
   startGame();
 };

@@ -144,31 +144,7 @@ button {
 #skip-btn:hover {
   background-color: #fb8c00;
 }
-#splash-message {
-  position: absolute;
-  top: 120px; /* adjust based on your layout */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.5rem;
-  font-weight: bold;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 10;
-}
 
-.splash-visible {
-  opacity: 1;
-  transform: translate(-50%, -20px);
-}
-
-.splash-correct {
-  color: #4caf50;
-}
-
-.splash-wrong {
-  color: #f44336;
-}
 #results {
   display: flex;
   justify-content: space-between;
@@ -198,7 +174,51 @@ button {
   overflow-y: auto;
   font-size: 0.95rem;
 }
-#splash-message {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px dashed red;
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+#answer-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 4px black;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#answer-label.correct {
+  color: #4caf50;
+}
+
+#answer-label.wrong {
+  color: #f44336;
+}
+
+#answer-label.visible {
+  opacity: 2;
+}
+@keyframes bounceOutRight {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(20%, -50%) scale(1.1);
+  }
+  100% {
+    transform: translate(100%, -50%) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.bounce-out {
+  animation: bounceOutRight 0.4s forwards;
 }
