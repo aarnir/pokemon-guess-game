@@ -34,10 +34,10 @@ window.onload = function () {
     { name: "raichu", image: "sprites/026.png" },
     { name: "sandshrew", image: "sprites/027.png" },
     { name: "sandslash", image: "sprites/028.png" },
-    { name: "nidoran♀", image: "sprites/029.png" },
+    { name: "nidoran-f", image: "sprites/029.png" },
     { name: "nidorina", image: "sprites/030.png" },
     { name: "nidoqueen", image: "sprites/031.png" },
-    { name: "nidoran♂", image: "sprites/032.png" },
+    { name: "nidoran-m", image: "sprites/032.png" },
     { name: "nidorino", image: "sprites/033.png" },
     { name: "nidoking", image: "sprites/034.png" },
     { name: "clefairy", image: "sprites/035.png" },
@@ -275,7 +275,17 @@ window.onload = function () {
     const userGuess = input.value.trim().toLowerCase();
     const correctName = pokemonList[currentIndex].name.toLowerCase();
 
-    if (userGuess.includes(correctName)) {
+    const normalizedGuess = userGuess
+      .replace(/[^a-z0-9]/gi, "")
+      .replace(/female|f\b/g, "-f")
+      .replace(/male|m\b/g, "-m");
+
+    const normalizedAnswer = correctName
+      .replace(/♀/g, "-f")
+      .replace(/♂/g, "-m")
+      .replace(/[^a-z0-9]/gi, "");
+
+    if (normalizedGuess.includes(normalizedAnswer)) {
       score++;
       showLabel("Correct!", true);
       scoreDisplay.textContent = score;
@@ -287,6 +297,7 @@ window.onload = function () {
 
     setTimeout(bounceAndShowNext, 1200);
   });
+
   skipBtn.addEventListener("click", () => {
     addToMissed(pokemonList[currentIndex].name);
     showLabel("Skipped!", false); // optional message
