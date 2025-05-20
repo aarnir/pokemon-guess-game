@@ -96,6 +96,9 @@ button {
 
 #stats {
   margin-top: 20px;
+  color: #1b263b;
+  text-align: center;
+  font-weight: bold;
 }
 
 #status {
