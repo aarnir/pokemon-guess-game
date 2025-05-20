@@ -253,8 +253,8 @@ window.onload = function () {
         // Remove fly-in after it's done
         setTimeout(() => {
           imageElement.classList.remove("fly-in");
-        }, 300);
-      }, 300);
+        }, 600);
+      }, 600);
     } else {
       statusDisplay.textContent = `🎉 All done! Final Score: ${score}/151`;
       input.disabled = true;
