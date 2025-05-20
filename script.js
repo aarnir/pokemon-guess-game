@@ -235,6 +235,7 @@ window.onload = function () {
   }
 
   function showNextPokemon() {
+    console.log("▶️ Switching to next Pokémon:", currentIndex + 1);
     currentIndex++;
     if (currentIndex < pokemonList.length) {
       imageElement.classList.add("fly-out");
