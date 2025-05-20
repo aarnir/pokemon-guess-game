@@ -179,7 +179,6 @@ window.onload = function () {
   const label = document.getElementById("answer-label");
 
   function startGame() {
-    startTime = Date.now();
     shuffleArray(pokemonList);
     currentIndex = 0;
     score = 0;
@@ -294,11 +293,7 @@ window.onload = function () {
       .replace(/♂/g, "-m")
       .replace(/[^a-z0-9]/gi, "");
 
-    // Special case: Allow "nidoran" to match both genders
-    const isNidoranMatch =
-      normalizedAnswer.startsWith("nidoran") && normalizedGuess === "nidoran";
-
-    if (normalizedGuess.includes(normalizedAnswer) || isNidoranMatch) {
+    if (normalizedGuess.includes(normalizedAnswer)) {
       score++;
       showLabel("Correct!", true);
       scoreDisplay.textContent = score;
@@ -315,14 +310,6 @@ window.onload = function () {
     addToMissed(pokemonList[currentIndex].name);
     showLabel("Skipped!", false); // optional message
     setTimeout(bounceAndShowNext, 1500);
-  });
-  const endRunBtn = document.getElementById("end-run-btn");
-
-  endRunBtn.addEventListener("click", () => {
-    statusDisplay.textContent = `🏁 Run ended early! Final Score: ${score}/${pokemonList.length}`;
-    input.disabled = true;
-    submitBtn.disabled = true;
-    skipBtn.disabled = true;
   });
   startGame();
 };
