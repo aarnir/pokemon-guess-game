@@ -227,20 +227,20 @@ button {
 }*/
 .top-row {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   margin-bottom: 20px;
 }
 
 .result-box {
-  flex: 1 1 150px;
-  max-width: 200px;
+  width: 260px; /* fixed width */
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 
 .result-box h3 {
   margin-top: 0;
@@ -248,12 +248,15 @@ button {
 }
 
 .result-box ul {
+  column-count: 2;
+  column-gap: 4px;
   list-style: none;
   padding-left: 0;
   max-height: 200px;
   overflow-y: auto;
   font-size: 0.95rem;
 }
+
 .result-box:nth-child(1),
 #guessed-list li {
   color: #4caf50; /* green for correct */
