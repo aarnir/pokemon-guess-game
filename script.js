@@ -163,6 +163,7 @@ window.onload = function () {
 
   let currentIndex = 0;
   let score = 0;
+  let timerStarted = false;
   let startTime = Date.now();
   let timerInterval;
   let isTransitioning = false;
@@ -177,6 +178,7 @@ window.onload = function () {
   const guessedList = document.getElementById("guessed-list");
   const missedList = document.getElementById("missed-list");
   const label = document.getElementById("answer-label");
+  const endRunBtn = document.getElementById("end-run-btn");
 
   function startGame() {
     shuffleArray(pokemonList);
@@ -192,12 +194,10 @@ window.onload = function () {
     input.disabled = false;
     submitBtn.disabled = false;
     skipBtn.disabled = false;
-
-    // reset and start the timer
     clearInterval(timerInterval);
-    startTime = Date.now();
-    updateTimer(); // reset to 0 immediately
-    timerInterval = setInterval(updateTimer, 1000);
+    timerDisplay.textContent = "0:00"; // Reset display
+    timerInterval = null; // We'll start it later
+    timerStarted = false;
   }
 
   function addToGuessed(name) {
@@ -214,21 +214,28 @@ window.onload = function () {
 
   function updateTimer() {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    timerDisplay.textContent = elapsed;
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    console.log(`⏱ Timer Tick: ${minutes}:${seconds}`);
+    timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
+  
+  
   const restartBtn = document.getElementById("restart-btn");
 
   function bounceAndShowNext() {
+    label.classList.remove("correct", "wrong", "visible", "bounce-out");
+    void label.offsetWidth; // force reflow
     label.classList.add("bounce-out");
 
+  
     setTimeout(() => {
       label.textContent = "";
       label.classList.remove("bounce-out");
-      label.classList.remove("visible");
       label.style.opacity = 0;
-
+  
       showNextPokemon();
-    }, 600); // total label visibility duration
+    }, 600);
   }
 
   restartBtn.addEventListener("click", () => {
@@ -238,9 +245,10 @@ window.onload = function () {
 
   function showLabel(text, isCorrect) {
     label.textContent = text;
+    label.classList.remove("bounce-out");
     label.className = isCorrect ? "visible correct" : "visible wrong";
     label.style.opacity = 1;
-  }
+  }  
 
   function showNextPokemon() {
     console.log("▶️ Switching to next Pokémon:", currentIndex + 1);
@@ -279,37 +287,45 @@ window.onload = function () {
       submitBtn.click();
     }
   });
+    
   submitBtn.addEventListener("click", () => {
-    const userGuess = input.value.trim().toLowerCase();
-    const correctName = pokemonList[currentIndex].name.toLowerCase();
-
-    const normalizedGuess = userGuess
-      .replace(/[^a-z0-9]/gi, "")
-      .replace(/female|f\b/g, "-f")
-      .replace(/male|m\b/g, "-m");
-
-    const normalizedAnswer = correctName
-      .replace(/♀/g, "-f")
-      .replace(/♂/g, "-m")
-      .replace(/[^a-z0-9]/gi, "");
-
-    if (normalizedGuess.includes(normalizedAnswer)) {
+    if (!timerStarted) {
+      timerStarted = true;
+      startTime = Date.now();
+      updateTimer(); // Show 0:00 instantly
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+    const userGuess = input.value.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+    const correctName = pokemonList[currentIndex].name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  
+    console.log("Guess vs Answer:", userGuess, correctName);
+  
+    if (userGuess === correctName) {
       score++;
       showLabel("Correct!", true);
       scoreDisplay.textContent = score;
-      addToGuessed(correctName);
+      addToGuessed(pokemonList[currentIndex].name);
     } else {
       showLabel("Wrong!", false);
-      addToMissed(correctName);
+      addToMissed(pokemonList[currentIndex].name);
     }
-
+  
     setTimeout(bounceAndShowNext, 1200);
   });
+  
 
   skipBtn.addEventListener("click", () => {
     addToMissed(pokemonList[currentIndex].name);
     showLabel("Skipped!", false); // optional message
     setTimeout(bounceAndShowNext, 1500);
   });
-  startGame();
+  endRunBtn.addEventListener("click", () => {
+    clearInterval(timerInterval);
+    timerStarted = false;
+    input.disabled = true;
+    submitBtn.disabled = true;
+    skipBtn.disabled = true;
+    statusDisplay.textContent = `⏹️ Run ended early! Final Score: ${score}/${pokemonList.length}`;
+  }); 
+startGame();
 };
