@@ -179,6 +179,7 @@ window.onload = function () {
   const missedList = document.getElementById("missed-list");
   const label = document.getElementById("answer-label");
   const endRunBtn = document.getElementById("end-run-btn");
+  const guessedHeading = document.getElementById("guessed-heading");
 
   function startGame() {
     shuffleArray(pokemonList);
@@ -204,7 +205,8 @@ window.onload = function () {
     const li = document.createElement("li");
     li.textContent = name;
     guessedList.appendChild(li);
-  }
+    guessedHeading.textContent = `✅ Correct (${guessedList.children.length})`;
+  }  
 
   function addToMissed(name) {
     const li = document.createElement("li");
@@ -295,12 +297,16 @@ window.onload = function () {
       updateTimer(); // Show 0:00 instantly
       timerInterval = setInterval(updateTimer, 1000);
     }
-    const userGuess = input.value.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
-    const correctName = pokemonList[currentIndex].name.toLowerCase().replace(/[^a-z0-9]/g, "");
-  
-    console.log("Guess vs Answer:", userGuess, correctName);
-  
-    if (userGuess === correctName) {
+    const rawGuess = input.value.trim().toLowerCase();
+    const userGuess = rawGuess.replace(/[^a-z0-9]/g, "");
+    const correctName = pokemonList[currentIndex].name.toLowerCase();
+    const cleanedCorrect = correctName.replace(/[^a-z0-9]/g, "");
+    
+    if (
+      userGuess === cleanedCorrect ||
+      (userGuess === "nidoran" &&
+        (correctName === "nidoran-m" || correctName === "nidoran-f"))
+    ) {
       score++;
       showLabel("Correct!", true);
       scoreDisplay.textContent = score;
