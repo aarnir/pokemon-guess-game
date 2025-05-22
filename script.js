@@ -202,17 +202,42 @@ window.onload = function () {
   }
 
   function addToGuessed(name) {
-    const li = document.createElement("li");
-    li.textContent = name;
-    guessedList.appendChild(li);
-    guessedHeading.textContent = `✅ Correct (${guessedList.children.length})`;
-  }  
+    const entry = pokemonList.find(p => p.name === name);
+    const number = entry.image.match(/\d+/)[0];
+  
+    // Add to array (if you're tracking) OR directly insert with sorting
+    const items = Array.from(guessedList.children);
+    const newItem = document.createElement("li");
+    newItem.textContent = `#${number.padStart(3, "0")} ${capitalize(name)}`;
 
-  function addToMissed(name) {
-    const li = document.createElement("li");
-    li.textContent = name;
-    missedList.appendChild(li);
+  
+    // Insert in the right order
+    const inserted = items.some((item, i) => {
+      const existingNumber = item.textContent.match(/\d+/)[0];
+      if (parseInt(number) < parseInt(existingNumber)) {
+        guessedList.insertBefore(newItem, item);
+        return true;
+      }
+      return false;
+    });
+  
+    if (!inserted) guessedList.appendChild(newItem);
+  
+    // Update heading
+    guessedHeading.textContent = `✅ Correct (${guessedList.children.length})`;
   }
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+ function addToMissed(name) {
+  const entry = pokemonList.find(p => p.name === name);
+  const number = entry.image.match(/\d+/)[0].padStart(3, "0");
+
+  const li = document.createElement("li");
+  li.textContent = `#${number} ${capitalize(name)}`;
+  missedList.appendChild(li);
+}
 
   function updateTimer() {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
